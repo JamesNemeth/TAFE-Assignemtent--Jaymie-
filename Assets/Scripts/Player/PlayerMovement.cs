@@ -31,7 +31,7 @@ namespace RPG.Player
                 if (_charC.isGrounded)
                 {
                     //set speed
-                    if (Input.GetButton("Sprint"))
+                    if (Input.GetButton("Sprint") && Stamina.curStamina > 0)
                     {
                         moveSpeed = runSpeed;
                     }

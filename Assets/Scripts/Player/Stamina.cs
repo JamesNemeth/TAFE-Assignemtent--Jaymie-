@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Stamina : MonoBehaviour
 {
     public Image staminaFill;
-    public float curStamina, maxStamina;
+    public static float curStamina = 100f, maxStamina = 100f;
 
     bool staminaUsed;
     public float staminaPerSecond = 1f;
@@ -33,6 +33,10 @@ public class Stamina : MonoBehaviour
         if (curStamina > 100)
         {
             curStamina = 100;
+        }
+        if (curStamina < 0)
+        {
+            curStamina = 0;
         }
     }
     private void Timer()

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class Health : MonoBehaviour
 {
     public Image HealthIcon;
-    public float curHealth, maxHealth;
+    public float curHealth = 100f, maxHealth = 100f;
 
     [Header("Damage Effects")]
 
@@ -28,6 +28,14 @@ public class Health : MonoBehaviour
         {
             damaged = true;
             curHealth -= 5;
+        }
+        if (curHealth > 100)
+        {
+            curHealth = 100; ;
+        }
+        if (curHealth < 0)
+        {
+            curHealth = 0; ;
         }
         if (damaged)
         {
