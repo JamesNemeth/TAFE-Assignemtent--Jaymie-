@@ -36,7 +36,10 @@ public class PlayerHandler : MonoBehaviour
     public static bool isDead;
     bool damaged;
     bool canHeal;
+    bool staminaUsed;
     float healTimer;
+    float ManaPerSecond = 2f;
+    float staminaPerSecond = 10f;
 
     [Header("Check Point")]
     public Transform curCheckPoint;
@@ -47,26 +50,77 @@ public class PlayerHandler : MonoBehaviour
     [Header("Custom")]
     public bool custom;
     public int skinIndex, eyesIndex, mouthIndex, hairIndex, clothesIndex, armourIndex;
-   // public CharacterClass charClass;
+    public CharacterClass charClass;
     public string characterName;
     public string firstCheckPointName = "First Checkpoint";
 
     void Start()
     {
         playerAudio = GetComponent<AudioSource>();
+
+        InvokeRepeating("Timer", 1, 1f);
     }
 
     void Update()
     {
         if (!custom)
         {
+            HealthChange();
+            ManaChange();
+            StaminaChange();
+
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                damaged = true;
+                curHealth -= 5;
+            }
+            if (curHealth > 100)
+            {
+                curHealth = 100; ;
+            }
+            if (curHealth < 0)
+            {
+                curHealth = 0; ;
+            }
+            if (damaged)
+            {
+                damageImage.color = flashColor;
+                damaged = false;
+            }
+            else
+            {
+                damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+            }
             if (curHealth <= 0 && !isDead)
             {
                 Death();
             }
 
-            HealthChange();
-            ManaChange();
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                curMana -= 5;
+            }
+            if (curMana > 100)
+            {
+                curMana = 100;
+            }
+            if (curMana < 0)
+            {
+                curMana = 0;
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                curStamina -= 1;
+            }
+            if (curStamina > 100)
+            {
+                curStamina = 100;
+            }
+            if (curStamina < 0)
+            {
+                curStamina = 0;
+            }
         }
     }
 
@@ -80,20 +134,6 @@ public class PlayerHandler : MonoBehaviour
             Death();
         }
 
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            damaged = true;
-            curHealth -= 5;
-        }
-        if (damaged && !isDead)
-        {
-            damageImage.color = flashColor;
-            damaged = false;
-        }
-        else
-        {
-            damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
-        }
         if (!canHeal && curHealth < maxHealth && curHealth > 0)
         {
             healTimer += Time.deltaTime;
@@ -107,6 +147,11 @@ public class PlayerHandler : MonoBehaviour
     {
         float amount = Mathf.Clamp01(curMana / maxMana);
         radialManaIcon.fillAmount = amount;
+    }
+    void StaminaChange()
+    {
+        float amount = Mathf.Clamp01(curStamina / maxStamina);
+        radialStaminaIcon.fillAmount = amount;
     }
     private void LateUpdate()
     {
@@ -177,5 +222,10 @@ public class PlayerHandler : MonoBehaviour
     public void HealOverTime()
     {
         curHealth += Time.deltaTime * (healRate);
+    }
+    private void Timer()
+    {
+        curMana += ManaPerSecond;
+        curStamina += staminaPerSecond;
     }
 }
