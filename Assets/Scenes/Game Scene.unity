@@ -506,6 +506,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3768578335127839056, guid: 79a27fbee9a2d944588d535f1df8fe9b,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1337349256}
+    - target: {fileID: 3768578335127839056, guid: 79a27fbee9a2d944588d535f1df8fe9b,
+        type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetResolution
+      objectReference: {fileID: 0}
     - target: {fileID: 3768578333922682189, guid: 79a27fbee9a2d944588d535f1df8fe9b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -620,16 +630,6 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetFullScreen
-      objectReference: {fileID: 0}
-    - target: {fileID: 3768578335127839056, guid: 79a27fbee9a2d944588d535f1df8fe9b,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1337349256}
-    - target: {fileID: 3768578335127839056, guid: 79a27fbee9a2d944588d535f1df8fe9b,
-        type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetResolution
       objectReference: {fileID: 0}
     - target: {fileID: 3768578333429015531, guid: 79a27fbee9a2d944588d535f1df8fe9b,
         type: 3}
@@ -1876,7 +1876,6 @@ GameObject:
   - component: {fileID: 843757466}
   - component: {fileID: 843757469}
   - component: {fileID: 843757468}
-  - component: {fileID: 843757467}
   m_Layer: 5
   m_Name: Mana
   m_TagString: Untagged
@@ -1904,22 +1903,6 @@ RectTransform:
   m_AnchoredPosition: {x: -278, y: 210.99997}
   m_SizeDelta: {x: 320.7, y: 42.3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &843757467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 843757465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b0fac24a7b397d4e888c46721e65047, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radialManaIcon: {fileID: 911678053}
-  curMana: 100
-  maxMana: 100
-  ManaPerSecond: 1
 --- !u!114 &843757468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2419,7 +2402,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: b11a67db551264044ae26acc00fac125, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2482,6 +2465,8 @@ MonoBehaviour:
   maxMana: 100
   maxStamina: 100
   healRate: 1
+  ManaPerSecond: 5
+  staminaPerSecond: 10
   stats: []
   radialHealthIcon: {fileID: 1872814639}
   radialManaIcon: {fileID: 911678053}
@@ -2492,6 +2477,9 @@ MonoBehaviour:
   text: {fileID: 0}
   flashSpeed: 5
   flashColor: {r: 1, g: 0, b: 0, a: 0.2}
+  healTimer: 0
+  manaTimer: 0
+  staminaTimer: 0
   curCheckPoint: {fileID: 0}
   custom: 0
   skinIndex: 0
@@ -2500,6 +2488,7 @@ MonoBehaviour:
   hairIndex: 0
   clothesIndex: 0
   armourIndex: 0
+  charClass: 0
   characterName: 
   firstCheckPointName: First Checkpoint
 --- !u!143 &1218378770
@@ -3328,7 +3317,6 @@ GameObject:
   - component: {fileID: 1596546580}
   - component: {fileID: 1596546583}
   - component: {fileID: 1596546582}
-  - component: {fileID: 1596546581}
   m_Layer: 5
   m_Name: Stamina
   m_TagString: Untagged
@@ -3356,20 +3344,6 @@ RectTransform:
   m_AnchoredPosition: {x: -278, y: 152.19998}
   m_SizeDelta: {x: 320.7, y: 42.3}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1596546581
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596546579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b900610558c8364899e1dc6fed16e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  staminaFill: {fileID: 1518765009}
-  staminaPerSecond: 10
 --- !u!114 &1596546582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3581,7 +3555,6 @@ GameObject:
   - component: {fileID: 1894693975}
   - component: {fileID: 1894693977}
   - component: {fileID: 1894693976}
-  - component: {fileID: 1894693978}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -3646,24 +3619,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1894693974}
   m_CullTransparentMesh: 0
---- !u!114 &1894693978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1894693974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e91345fefa6836442af0a6e5c53af509, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HealthIcon: {fileID: 1872814639}
-  curHealth: 100
-  maxHealth: 100
-  damageImage: {fileID: 1976574305}
-  flashSpeed: 5
-  flashColor: {r: 1, g: 0, b: 0, a: 0.2}
 --- !u!1 &1967953096
 GameObject:
   m_ObjectHideFlags: 0

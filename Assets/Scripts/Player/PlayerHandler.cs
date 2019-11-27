@@ -15,7 +15,7 @@ public class PlayerHandler : MonoBehaviour
     [Header("Value Variables")]
 
     public float curHealth;
-    public float curMana, curStamina, maxHealth, maxMana, maxStamina, healRate;
+    public float curMana, curStamina, maxHealth, maxMana, maxStamina, healRate, ManaPerSecond, staminaPerSecond;
     public PlayerStats[] stats;
 
     [Header("Value Variables")]
@@ -36,16 +36,17 @@ public class PlayerHandler : MonoBehaviour
     public static bool isDead;
     bool damaged;
     bool canHeal;
-    bool staminaUsed;
-    float healTimer;
-    float ManaPerSecond = 2f;
-    float staminaPerSecond = 10f;
+    bool canUseMana;
+    bool canUseStamina;
+    public float healTimer;
+    public float manaTimer;
+    public float staminaTimer;
 
     [Header("Check Point")]
     public Transform curCheckPoint;
 
     [Header("save")]
-    //public PlayerSaveAndLoad saveAndLoad;
+    public PlayerSaveAndLoad saveAndLoad;
 
     [Header("Custom")]
     public bool custom;
@@ -57,8 +58,6 @@ public class PlayerHandler : MonoBehaviour
     void Start()
     {
         playerAudio = GetComponent<AudioSource>();
-
-        InvokeRepeating("Timer", 1, 1f);
     }
 
     void Update()
@@ -81,6 +80,10 @@ public class PlayerHandler : MonoBehaviour
             if (curHealth < 0)
             {
                 curHealth = 0; ;
+            }
+            if (curHealth < maxHealth && curHealth > 0 && canHeal)
+            {
+                HealOverTime();
             }
             if (damaged)
             {
@@ -108,6 +111,10 @@ public class PlayerHandler : MonoBehaviour
             {
                 curMana = 0;
             }
+            if (curMana < maxMana && curMana > 0 && canUseMana)
+            {
+                ManaOverTime();
+            }
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
@@ -120,6 +127,10 @@ public class PlayerHandler : MonoBehaviour
             if (curStamina < 0)
             {
                 curStamina = 0;
+            }
+            if (curStamina < maxStamina && curStamina > 0 && canUseStamina)
+            {
+                StaminaOverTime();
             }
         }
     }
@@ -147,17 +158,28 @@ public class PlayerHandler : MonoBehaviour
     {
         float amount = Mathf.Clamp01(curMana / maxMana);
         radialManaIcon.fillAmount = amount;
+
+        if (!canUseMana && curMana < maxMana && curMana > 0)
+        {
+            manaTimer += Time.deltaTime;
+            if (manaTimer >= 3)
+            {
+                canUseMana = true;
+            }
+        }
     }
     void StaminaChange()
     {
         float amount = Mathf.Clamp01(curStamina / maxStamina);
         radialStaminaIcon.fillAmount = amount;
-    }
-    private void LateUpdate()
-    {
-        if (curHealth < maxHealth && curHealth > 0 && canHeal)
+
+        if (!canUseStamina && curStamina < maxStamina && curStamina > 0)
         {
-            HealOverTime();
+            staminaTimer += Time.deltaTime;
+            if (staminaTimer >= 3)
+            {
+                canUseStamina = true;
+            }
         }
     }
     void Death()
@@ -221,11 +243,14 @@ public class PlayerHandler : MonoBehaviour
     }
     public void HealOverTime()
     {
-        curHealth += Time.deltaTime * (healRate);
+        curHealth += Time.deltaTime * healRate;
     }
-    private void Timer()
+    public void ManaOverTime()
     {
-        curMana += ManaPerSecond;
-        curStamina += staminaPerSecond;
+        curMana += Time.deltaTime * ManaPerSecond;
+    }
+    public void StaminaOverTime()
+    {
+        curStamina += Time.deltaTime * staminaPerSecond;
     }
 }
