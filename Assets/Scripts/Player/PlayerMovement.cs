@@ -15,10 +15,12 @@ namespace RPG.Player
         private Vector3 _moveDir;
         //Reference Variable
         private CharacterController _charC;
+        public PlayerHandler player;
 
         private void Start()
         {
             _charC = GetComponent<CharacterController>();
+            player = GetComponent<PlayerHandler>();
         }
         private void Update()
         {
@@ -31,7 +33,7 @@ namespace RPG.Player
                 if (_charC.isGrounded)
                 {
                     //set speed
-                    if (Input.GetButton("Sprint") && Stamina.curStamina > 0)
+                    if (Input.GetButton("Sprint") && player.curStamina > 0)
                     {
                         moveSpeed = runSpeed;
                     }
