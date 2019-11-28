@@ -5,7 +5,7 @@ using UnityEngine;
 public class PauseMenu : MonoBehaviour
 {
     public static bool isPaused;
-    private GameObject _pauseMenu;
+    public GameObject _pauseMenu;
     // Update is called once per frame
     void Start()
     {
