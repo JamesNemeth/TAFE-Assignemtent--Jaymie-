@@ -81,7 +81,7 @@ public class PlayerHandler : MonoBehaviour
             {
                 curHealth = 0; ;
             }
-            if (curHealth < maxHealth && curHealth > 0 && canHeal)
+            if (curHealth < maxHealth && curHealth >= 0 && canHeal)
             {
                 HealOverTime();
             }
@@ -111,7 +111,7 @@ public class PlayerHandler : MonoBehaviour
             {
                 curMana = 0;
             }
-            if (curMana < maxMana && curMana > 0 && canUseMana)
+            if (curMana < maxMana && curMana >= 0 && canUseMana)
             {
                 ManaOverTime();
             }
@@ -128,7 +128,7 @@ public class PlayerHandler : MonoBehaviour
             {
                 curStamina = 0;
             }
-            if (curStamina < maxStamina && curStamina > 0 && canUseStamina)
+            if (curStamina < maxStamina && curStamina >= 0 && canUseStamina)
             {
                 StaminaOverTime();
             }
@@ -145,7 +145,7 @@ public class PlayerHandler : MonoBehaviour
             Death();
         }
 
-        if (!canHeal && curHealth < maxHealth && curHealth > 0)
+        if (!canHeal && curHealth < maxHealth && curHealth >= 0)
         {
             healTimer += Time.deltaTime;
             if (healTimer >= 5)
@@ -159,7 +159,7 @@ public class PlayerHandler : MonoBehaviour
         float amount = Mathf.Clamp01(curMana / maxMana);
         radialManaIcon.fillAmount = amount;
 
-        if (!canUseMana && curMana < maxMana && curMana > 0)
+        if (!canUseMana && curMana < maxMana && curMana >= 0)
         {
             manaTimer += Time.deltaTime;
             if (manaTimer >= 3)
@@ -173,7 +173,7 @@ public class PlayerHandler : MonoBehaviour
         float amount = Mathf.Clamp01(curStamina / maxStamina);
         radialStaminaIcon.fillAmount = amount;
 
-        if (!canUseStamina && curStamina < maxStamina && curStamina > 0)
+        if (!canUseStamina && curStamina < maxStamina && curStamina >= 0)
         {
             staminaTimer += Time.deltaTime;
             if (staminaTimer >= 3)
